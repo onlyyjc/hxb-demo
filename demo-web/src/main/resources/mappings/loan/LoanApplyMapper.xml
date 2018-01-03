@@ -1,0 +1,836 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hxb.loans.loan.dao.LoanApplyDAO">
+
+    <resultMap id="LoanApplyMap" type="com.hxb.loans.loan.entity.LoanApply">
+        <id column="ID" property="id"/>
+        <result column="CONT_NO" property="contNo"/>
+        <result column="APPLY_DATE" property="applyDate"/>
+        <result column="APPLY_TIME" property="applyTime"/>
+        <result column="user_id" property="userId"/>
+        <result column="USER_NAME" property="userName"/>
+        <result column="ID_NO" property="idNo"/>
+        <result column="MOBILE" property="mobile"/>
+        <result column="USER_CREDIT_LINE" property="userCreditLine"/>
+        <result column="PRODUCT_ID" property="productId"/>
+        <result column="PRODUCT_TYPE" property="productType"/>
+        <result column="PRODUCT_NAME" property="productName"/>
+        <result column="PROMOTION_CASE_ID" property="promotionCaseId"/>
+        <result column="PURPOSE" property="purpose"/>
+        <result column="APPLY_AMT" property="applyAmt"/>
+        <result column="APPROVE_AMT" property="approveAmt"/>
+        <result column="APPLY_TERM" property="applyTerm"/>
+        <result column="APPROVE_TERM" property="approveTerm"/>
+        <result column="BASIC_RATE" property="basicRate"/>
+        <result column="ACTUAL_RATE" property="actualRate"/>
+        <result column="INTEREST" property="interest"/>
+        <result column="SERV_FEE" property="servFee"/>
+        <result column="SERV_FEE_RATE" property="servFeeRate"/>
+        <result column="OVERDUE_RATE" property="overdueRate"/>
+        <result column="OVERDUE_FEE" property="overdueFee"/>
+        <result column="REPAY_FREQ" property="repayFreq"/>
+        <result column="REPAY_UNIT" property="repayUnit"/>
+        <result column="TERM" property="term"/>
+        <result column="REPAY_METHOD" property="repayMethod"/>
+        <result column="DISCOUNT" property="discount"/>
+        <result column="DISCOUNT_REASON" property="discountReason"/>
+        <result column="DISCOUNT_AMT" property="discountAmt"/>
+        <result column="DISCOUNT_RATE" property="discountRate"/>
+        <result column="GRACE_DAY" property="graceDay"/>
+        <result column="ORG_ID" property="orgId"/>
+        <result column="ORG_NAME" property="orgName"/>
+        <result column="INPUT_TIME" property="inputTime"/>
+        <result column="OPERATOR_ID" property="operatorId"/>
+        <result column="OPERATOR_NAME" property="operatorName"/>
+        <result column="APPROVER_ID" property="approverId"/>
+        <result column="APPROVER_NAME" property="approverName"/>
+        <result column="STAGE" property="stage"/>
+        <result column="STATUS" property="status"/>
+        <result column="APPLY_STATUS" property="applyStatus"/>
+        <result column="APPROVE_RESULT" property="approveResult"/>
+        <result column="APPROVE_TIME" property="approveTime"/>
+        <result column="LOAN_SUCC_COUNT" property="loanSuccCount"/>
+        <result column="APPLY_COUNT" property="applyCount"/>
+        <result column="CHANNEL_ID" property="channelId"/>
+        <result column="SALER_ID" property="salerId"/>
+        <result column="EXT_INFO" property="extInfo"/>
+        <result column="CHANNEL" property="channel"/>
+        <result column="SOURCE" property="source"/>
+        <result column="TEMINAL_ID" property="teminalId"/>
+        <result column="IP" property="ip"/>
+        <result column="REMARK" property="remark"/>
+        <result column="CREATE_BY" property="createBy"/>
+        <result column="CREATE_TIME" property="createTime"/>
+        <result column="UPDATE_BY" property="updateBy"/>
+        <result column="UPDATE_TIME" property="updateTime"/>
+        <result column="DEL" property="del"/>
+    </resultMap>
+
+    <resultMap id="SummaryMap" type="com.hxb.loans.loan.vo.LoansApplySummaryVO">
+        <id column="ID" property="applyId"/>
+        <result column="APPLY_TIME" property="applyTime"/>
+        <result column="APPROVE_AMT" property="approveAmt"/>
+        <result column="APPROVE_TERM" property="approveTerm"/>
+        <result column="STATUS" property="overType"/>
+    </resultMap>
+    
+    <resultMap id="RepayMap" type="com.hxb.loans.loan.option.RePayOP">
+        <id column="ID" property="applyId"/>
+        <result column="USER_ID" property="userId"/>
+        <result column="USER_NAME" property="fullName"/>
+        <result column="SUCC_AMT" property="paySuccAmt"/>
+        <result column="TX_TIME" property="txTime"/>
+        <result column="CHL_ORDER_NO" property="payComOrderNo"/>
+        <result column="BIND_ID" property="bindId"/>
+        <result column="APPLY_ID" property="repayPlanItemId"/>
+    </resultMap>
+    
+
+    <sql id="All_Column">
+		id, cont_no, apply_date, apply_time, user_id, user_name, id_no, mobile,
+		user_credit_line, product_id, product_type, product_name, promotion_case_id, purpose,
+		apply_amt, approve_amt, apply_term, approve_term, basic_rate, actual_rate,
+		interest, serv_fee, serv_fee_rate, overdue_rate, overdue_fee, repay_freq, repay_unit, term, repay_method, discount,
+		discount_reason, discount_amt, discount_rate, grace_day, org_id, org_name,
+		input_time, operator_id, operator_name, approver_id, approver_name, stage, status,
+		apply_status, approve_result, approve_time, loan_succ_count, apply_count, channel_id, saler_id, ext_info, channel, source, teminal_id, ip,
+		remark, create_by, create_time, update_by, update_time, del
+	</sql>
+
+    <sql id="Where_Obj">
+        <where>
+            del = 0
+            <if test="id!=null">
+                AND id = #{id}
+            </if>
+            <if test="contNo!=null">
+                AND cont_no = #{contNo}
+            </if>
+            <if test="applyDate!=null">
+                AND apply_date = #{applyDate}
+            </if>
+            <if test="applyTime!=null">
+                AND apply_time = #{applyTime}
+            </if>
+            <if test="userId!=null">
+                AND user_id = #{userId}
+            </if>
+            <if test="userName!=null">
+                AND user_name = #{userName}
+            </if>
+            <if test="idNo!=null">
+                AND id_no = #{idNo}
+            </if>
+            <if test="mobile!=null">
+                AND mobile = #{mobile}
+            </if>
+            <if test="productId!=null">
+                AND product_id = #{productId}
+            </if>
+            <if test="promotionCaseId!=null">
+                AND promotion_case_id = #{promotionCaseId}
+            </if>
+            <if test="purpose!=null">
+                AND purpose = #{purpose}
+            </if>
+            <if test="applyAmt!=null">
+                AND apply_amt = #{applyAmt}
+            </if>
+            <if test="approveAmt!=null">
+                AND approve_amt = #{approveAmt}
+            </if>
+            <if test="applyTerm!=null">
+                AND apply_term = #{applyTerm}
+            </if>
+            <if test="approveTerm!=null">
+                AND approve_term = #{approveTerm}
+            </if>
+            <if test="stage!=null">
+                AND stage = #{stage}
+            </if>
+            <if test="status!=null">
+                AND status = #{status}
+            </if>
+            <if test="applyStatus!=null">
+                AND apply_status = #{applyStatus}
+            </if>
+            <if test="approveResult!=null">
+                AND approve_result = #{approveResult}
+            </if>
+            <if test="approveTime!=null">
+                AND approve_time = #{approveTime}
+            </if>
+            <if test="loanSuccCount!=null">
+                AND loan_succ_count = #{loanSuccCount}
+            </if>
+            <if test="applyCount!=null">
+                AND apply_count = #{applyCount}
+            </if>
+            <if test="channelId!=null">
+                AND channel_id = #{channelId}
+            </if>
+            <if test="extInfo!=null">
+                AND ext_info = #{extInfo}
+            </if>
+            <if test="channel!=null">
+                AND channel = #{channel}
+            </if>
+            <if test="source!=null">
+                AND source = #{source}
+            </if>
+            <if test="teminalId!=null">
+                AND teminal_id = #{teminalId}
+            </if>
+            <if test="ip!=null">
+                AND ip = #{ip}
+            </if>
+        </where>
+    </sql>
+
+    <sql id="pageOrderBy">
+        <choose>
+            <when test="page !=null and page.orderBy != null and page.orderBy != ''">
+                ORDER BY ${page.orderBy}
+            </when>
+            <otherwise>
+                ORDER BY t.create_time DESC
+            </otherwise>
+        </choose>
+    </sql>
+
+    <select id="getById" resultMap="LoanApplyMap">
+        SELECT
+        <include refid="All_Column"/>
+        FROM loan_apply
+        WHERE del = 0
+        AND id = #{id}
+    </select>
+
+    <select id="getCurApplyIdByUserId" resultType="string">
+	  SELECT
+		     id
+		FROM loan_apply
+	   WHERE del = 0
+	     AND apply_status IN (0, 2)
+	     AND user_id = #{userId}
+	</select>
+
+    <select id="countApplyNearMonth" parameterType="com.hxb.loans.loan.option.CountApplyOP" resultType="int">
+		SELECT 
+		  COUNT(1) 
+		FROM
+		      loan_apply 
+		WHERE del = 0
+		  AND user_id = #{userId}
+		  AND apply_date BETWEEN #{beginDate}  AND #{endDate}
+	</select>
+
+    <select id="getCurrentApplyStatus" parameterType="string" resultType="com.hxb.loans.loan.vo.LoanApplyStatusVO">
+	  SELECT
+		     id applyId, stage, status, apply_status as applyStatus
+		FROM loan_apply
+	   WHERE del = 0
+	     AND id = #{applyId}
+	</select>
+
+    <select id="getLoanApplyFromUser" parameterType="com.hxb.loans.loan.option.LoanApplyCustOP"
+            resultMap="LoanApplyMap">
+        SELECT
+        <include refid="All_Column"/>
+        FROM loan_apply
+        WHERE del = 0
+        AND apply_status = #{applyStatus}
+        AND id_no = #{idNo}
+        AND mobile = #{account}
+    </select>
+
+    <select id="getLoanApplyByUserId" resultMap="LoanApplyMap">
+        SELECT
+        <include refid="All_Column"/>
+        FROM loan_apply
+        WHERE del = 0
+        AND user_id = #{userId}
+        <![CDATA[ AND status >= 171 ]]>
+
+    </select>
+
+    <select id="getUnFinishLoanApplyByUserId" parameterType="string" resultMap="LoanApplyMap">
+        SELECT
+        <include refid="All_Column"/>
+        FROM loan_apply
+        WHERE del = 0
+        AND apply_status = 0
+        AND user_id = #{userId}
+    </select>
+
+    <select id="getInitUnFinishLoanApplyByUserId" parameterType="string" resultMap="LoanApplyMap">
+        SELECT
+        <include refid="All_Column"/>
+        FROM loan_apply
+        WHERE del = 0
+        AND apply_status IN (0, 2)
+        AND user_id = #{userId}
+    </select>
+
+    <select id="getLastApplyByUserId" parameterType="string" resultMap="LoanApplyMap">
+        SELECT
+        <include refid="All_Column"/>
+        FROM loan_apply
+        WHERE del = 0
+        AND user_id = #{userId}
+        ORDER BY create_time DESC, update_time DESC
+        LIMIT 1
+    </select>
+
+    <select id="getRejectLoanApplyByUserId" parameterType="string" resultMap="LoanApplyMap">
+	  SELECT
+		     id, cont_no, apply_time, user_id, user_name, id_no, mobile, apply_amt, apply_term, stage, status
+		FROM loan_apply
+	   WHERE del = 0
+	     AND status in ('212', '222')
+	     AND user_id = #{userId}
+	     ORDER BY apply_date DESC
+	</select>
+
+	<select id="getLastFinishApplyByUserId" parameterType="string" resultMap="LoanApplyMap">
+	  SELECT
+		     id, cont_no, apply_time, user_id, user_name, id_no, mobile, apply_amt, apply_term, stage, status, approve_time, update_time
+		FROM loan_apply
+	   WHERE del = 0
+	     AND apply_status = 1 
+	     AND user_id = #{userId}
+	     ORDER BY apply_time DESC
+	     LIMIT 1
+	</select>
+
+    <select id="getLoanApplySummaryFromUser" parameterType="com.hxb.loans.loan.option.LoanApplyCustOP"
+            resultMap="SummaryMap">
+        SELECT
+        id, date_format(apply_time, '%Y-%m-%d') apply_time, approve_amt, approve_term, status
+        FROM loan_apply
+        WHERE del = 0
+        <if test="processStage!=null">
+            <![CDATA[ AND stage > #{processStage} ]]>
+        </if>
+        AND apply_status = #{applyStatus}
+        AND id_no = #{idNo}
+        AND mobile = #{account}
+        ORDER BY apply_date
+    </select>
+
+    <select id="get" resultMap="LoanApplyMap">
+        SELECT
+        <include refid="All_Column"/>
+        FROM loan_apply
+        <include refid="Where_Obj"/>
+        ORDER BY id
+        LIMIT 1
+    </select>
+
+    <select id="findList" resultType="list">
+        SELECT
+        <include refid="All_Column"/>
+        FROM loan_apply
+        <include refid="Where_Obj"/>
+    </select>
+
+    <select id="findAllList" resultType="list">
+        SELECT
+        <include refid="All_Column"/>
+        FROM loan_apply
+    </select>
+
+    <insert id="insert">
+		INSERT INTO loan_apply(
+			id,
+			cont_no,
+			apply_date,
+			apply_time,
+			user_id,
+			user_name,
+			id_no,
+			mobile,
+			user_credit_line,
+			product_id,
+			product_type,
+			product_name,
+			promotion_case_id,
+			purpose,
+			apply_amt,
+			approve_amt,
+			apply_term,
+			approve_term,
+			basic_rate,
+			actual_rate,
+			interest,
+			serv_fee,
+			serv_fee_rate,
+			overdue_rate,
+			overdue_fee,
+			repay_freq,
+			repay_unit,
+			term,
+			repay_method,
+			discount,
+			discount_reason,
+			discount_amt,
+			discount_rate,
+			grace_day,
+			org_id,
+			org_name,
+			input_time,
+			operator_id,
+			operator_name,
+			approver_id,
+			approver_name,
+			stage,
+			status,
+			apply_status,
+			approve_result,
+			approve_time,
+			loan_succ_count,
+			apply_count,
+			channel_id,
+			saler_id,
+			ext_info,
+			channel,
+			source,
+			teminal_id,
+			ip,
+			remark,
+			create_by,
+			create_time,
+			update_by,
+			update_time,
+			del
+		) VALUES (
+			#{id},
+			#{contNo},
+			#{applyDate},
+			#{applyTime},
+			#{userId},
+			#{userName},
+			#{idNo},
+			#{mobile},
+			#{userCreditLine},
+			#{productId},
+			#{productType},
+			#{productName},
+			#{promotionCaseId},
+			#{purpose},
+			#{applyAmt},
+			#{approveAmt},
+			#{applyTerm},
+			#{approveTerm},
+			#{basicRate},
+			#{actualRate},
+			#{interest},
+			#{servFee},
+			#{servFeeRate},
+			#{overdueRate},
+			#{overdueFee},
+			#{repayFreq},
+			#{repayUnit},
+			#{term},
+			#{repayMethod},
+			#{discount},
+			#{discountReason},
+			#{discountAmt},
+			#{discountRate},
+			#{graceDay},
+			#{orgId},
+			#{orgName},
+			#{inputTime},
+			#{operatorId},
+			#{operatorName},
+			#{approverId},
+			#{approverName},
+			#{stage},
+			#{status},
+			#{applyStatus},
+			#{approveResult},
+			#{approveTime},
+			#{loanSuccCount},
+			#{applyCount},
+			#{channelId},
+			#{salerId},
+			#{extInfo},
+			#{channel},
+			#{source},
+			#{teminalId},
+			#{ip},
+			#{remark},
+			#{createBy},
+			#{createTime},
+			#{updateBy},
+			#{updateTime},
+			#{del}
+		)
+	</insert>
+
+    <update id="updateStageOrStatus">
+        UPDATE loan_apply SET
+        <if test="stage!=null">
+            stage = #{stage},
+        </if>
+        <if test="status!=null">
+            status = #{status},
+        </if>
+        <if test="applyStatus!=null">
+            apply_status = #{applyStatus},
+        </if>
+        update_by = #{updateBy},
+        update_time = #{updateTime}
+        WHERE id = #{id}
+    </update>
+
+    <update id="update">
+        UPDATE loan_apply SET
+        <if test="contNo!=null">
+            cont_no = #{contNo},
+        </if>
+        <if test="applyDate!=null">
+            apply_date = #{applyDate},
+        </if>
+        <if test="applyTime!=null">
+            apply_time = #{applyTime},
+        </if>
+        <if test="userId!=null">
+            user_id = #{userId},
+        </if>
+        <if test="userName!=null">
+            user_name = #{userName},
+        </if>
+        <if test="idNo!=null">
+            id_no = #{idNo},
+        </if>
+        <if test="mobile!=null">
+            mobile = #{mobile},
+        </if>
+        <if test="userCreditLine!=null">
+            user_credit_line = #{userCreditLine},
+        </if>
+        <if test="productId!=null">
+            product_id = #{productId},
+        </if>
+        <if test="productType!=null">
+            product_type = #{productType},
+        </if>
+        <if test="productName!=null">
+            product_name = #{productName},
+        </if>
+        <if test="promotionCaseId!=null">
+            promotion_case_id = #{promotionCaseId},
+        </if>
+        <if test="purpose!=null">
+            purpose = #{purpose},
+        </if>
+        <if test="applyAmt!=null">
+            apply_amt = #{applyAmt},
+        </if>
+        <if test="approveAmt!=null">
+            approve_amt = #{approveAmt},
+        </if>
+        <if test="applyTerm!=null">
+            apply_term = #{applyTerm},
+        </if>
+        <if test="approveTerm!=null">
+            approve_term = #{approveTerm},
+        </if>
+        <if test="basicRate!=null">
+            basic_rate = #{basicRate},
+        </if>
+        <if test="actualRate!=null">
+            actual_rate = #{actualRate},
+        </if>
+        <if test="interest!=null">
+            interest = #{interest},
+        </if>
+        <if test="servFee!=null">
+            serv_fee = #{servFee},
+        </if>
+        <if test="servFeeRate">
+            SERV_FEE_RATE = #{servFeeRate},
+        </if>
+        <if test="overdueRate!=null">
+            overdue_rate = #{overdueRate},
+        </if>
+        <if test="overdueFee!=null">
+            overdue_fee = #{overdueFee},
+        </if>
+        <if test="repayFreq!=null">
+            repay_freq = #{repayFreq},
+        </if>
+        <if test="repayUnit!=null">
+            repay_unit = #{repayUnit},
+        </if>
+        <if test="term!=null">
+            term = #{term},
+        </if>
+        <if test="repayMethod!=null">
+            repay_method = #{repayMethod},
+        </if>
+        <if test="discount!=null">
+            discount = #{discount},
+        </if>
+        <if test="discountReason!=null">
+            discount_reason = #{discountReason},
+        </if>
+        <if test="discountAmt!=null">
+            discount_amt = #{discountAmt},
+        </if>
+        <if test="discountRate!=null">
+            discount_rate = #{discountRate},
+        </if>
+        <if test="graceDay!=null">
+            grace_day = #{graceDay},
+        </if>
+        <if test="orgId!=null">
+            org_id = #{orgId},
+        </if>
+        <if test="orgName!=null">
+            org_name = #{orgName},
+        </if>
+        <if test="inputTime!=null">
+            input_time = #{inputTime},
+        </if>
+        <if test="operatorId!=null">
+            operator_id = #{operatorId},
+        </if>
+        <if test="operatorName!=null">
+            operator_name = #{operatorName},
+        </if>
+        <if test="approverId!=null">
+            approver_id = #{approverId},
+        </if>
+        <if test="approverName!=null">
+            approver_name = #{approverName},
+        </if>
+        <if test="stage!=null">
+            stage = #{stage},
+        </if>
+        <if test="status!=null">
+            status = #{status},
+        </if>
+        <if test="applyStatus!=null">
+            apply_status = #{applyStatus},
+        </if>
+        <if test="approveResult!=null">
+            approve_result = #{approveResult},
+        </if>
+        <if test="approveTime!=null">
+            approve_time = #{approveTime},
+        </if>
+        <if test="loanSuccCount!=null">
+            loan_succ_count = #{loanSuccCount},
+        </if>
+        <if test="applyCount!=null">
+            apply_count = #{applyCount},
+        </if>
+        <if test="channelId!=null">
+            channel_id = #{channelId},
+        </if>
+        <if test="salerId!=null">
+            saler_id = #{salerId},
+        </if>
+        <if test="extInfo!=null">
+            ext_info = #{extInfo},
+        </if>
+        <if test="channel!=null">
+            channel = #{channel},
+        </if>
+        <if test="source!=null">
+            source = #{source},
+        </if>
+        <if test="teminalId!=null">
+            teminal_id = #{teminalId},
+        </if>
+        <if test="ip!=null">
+            ip = #{ip},
+        </if>
+        <if test="remark!=null">
+            remark = #{remark},
+        </if>
+        <if test="updateBy!=null">
+            update_by = #{updateBy},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        update_by = #{updateBy},
+        update_time = #{updateTime}
+        WHERE id = #{id}
+    </update>
+
+    <update id="deleteById">
+        UPDATE loan_apply SET
+        <if test="updateBy!=null">
+            update_by = #{updateBy},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        del = 1
+        WHERE id = #{id}
+    </update>
+
+    <update id="delete">
+        UPDATE loan_apply SET
+        <if test="updateBy!=null">
+            update_by = #{updateBy},
+        </if>
+        <if test="updateTime!=null">
+            update_time = #{updateTime},
+        </if>
+        del = 1
+        <include refid="Where_Obj"/>
+    </update>
+
+    <select id="getLoanApplyList" resultType="com.hxb.loans.loan.vo.ApplyListVO">
+        SELECT t.id,t.user_id as userId,t.user_name as userName,t.mobile,t.id_no as idNo,t.product_name as productName,
+        t.apply_amt as applyAmt,t.approve_amt as approveAmt,t.apply_term as applyTerm,t.approve_term as approveTerm,
+        t.repay_method as repayMethod,t.basic_rate as basicRate,t.discount_rate as discountRate,
+        t.apply_time as applyTime,t.approver_name as approverName,t.status,t.approve_time as time,
+        t.approve_result as checkStatus,t.channel as channel
+        from loan_apply t
+        <where>
+            del = 0
+            <if test="applyListOP.mobile != null and applyListOP.mobile != ''">
+                and t.mobile = #{applyListOP.mobile}
+            </if>
+            <if test="applyListOP.idNo != null and applyListOP.idNo != ''">
+                and t.id_no = #{applyListOP.idNo}
+            </if>
+            <if test="applyListOP.userName != null and applyListOP.userName != ''">
+                and t.user_name = #{applyListOP.userName}
+            </if>
+            <if test="applyListOP.status != null and applyListOP.status != ''">
+                and t.status = #{applyListOP.status}
+            </if>
+            <if test="applyListOP.channel != null and applyListOP.channel != ''">
+                and t.channel = #{applyListOP.channel}
+            </if>
+            <if test="applyListOP.operatorId != null and applyListOP.operatorId != ''">
+                and t.approver_id = #{applyListOP.operatorId}
+            </if>
+            <if test="applyListOP.applyTimeStart != null ">
+                <![CDATA[ AND t.apply_time >= #{applyListOP.applyTimeStart} ]]>
+            </if>
+            <if test="applyListOP.applyTimeEnd != null">
+                <![CDATA[ AND t.apply_time <= #{applyListOP.applyTimeEnd} ]]>
+            </if>
+            <if test="applyListOP.statusList != null and applyListOP.statusList.size() > 0">
+                and t.`status` in
+                <foreach item="status" collection="applyListOP.statusList" open="(" separator="," close=")">
+                    #{status}
+                </foreach>
+            </if>
+            <if test="applyListOP.stage != null and applyListOP.stage != 1">
+                <if test="applyListOP.checkStatus != null and applyListOP.checkStatus != ''">
+                    and t.`approve_result` = #{applyListOP.checkStatus}
+                </if>
+                <if test="applyListOP.checkTimeStart != null ">
+                    <![CDATA[ AND t.approve_time >= #{applyListOP.checkTimeStart} ]]>
+                </if>
+                <if test="applyListOP.checkTimeEnd != null">
+                    <![CDATA[ AND t.approve_time <= #{applyListOP.checkTimeEnd} ]]>
+                </if>
+            </if>
+        </where>
+        <include refid="pageOrderBy"/>
+    </select>
+
+    <select id="countApply" resultType="java.lang.Integer">
+		SELECT count(1) from loan_apply WHERE
+		user_id =#{userId}
+		<![CDATA[ and `status`>=171 ]]>
+		 and del = 0
+	</select>
+
+	<select id="countOverLoanByRepay" resultType="int">
+		SELECT count(1) from loan_apply WHERE
+		user_id = #{userId}
+		and `status`IN (611, 612, 711, 811)
+		and del = 0
+	</select>
+
+	<select id="countById" resultType="java.lang.Integer">
+		SELECT count(1) from loan_apply WHERE id =#{id} and del = 0
+	</select>
+
+    <select id="findByIdList" resultMap="LoanApplyMap">
+        select
+        <include refid="All_Column" />
+        from loan_apply
+        where id IN
+        <foreach item="id" collection="idList" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </select>
+
+    <select id="getRecentApproveResults" resultType="com.hxb.loans.loan.vo.LoanApplyInfoVO">
+        select
+        a.*, b.total_amount
+        from loan_apply a LEFT JOIN loan_repay_plan b ON a.id = b.apply_id
+        where  a.approve_time > DATE_SUB(NOW(), Interval 1 HOUR) and a.channel='RONG360'
+        and a.approve_result is not null and a.del = 0
+    </select>
+
+    <select id="getApplyInfoByid" resultType="com.hxb.loans.loan.vo.LoanApplyInfoVO">
+        select
+        a.*, b.total_amount
+        from loan_apply a LEFT JOIN loan_repay_plan b ON a.id = b.apply_id
+        where  a.id = #{id} and a.del = 0
+    </select>
+
+    <update id="updateOverdue">
+        UPDATE loan_apply set `status`=710,stage=71,update_by='system'
+        where id IN
+        <foreach item="id" collection="idList" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </update>
+
+    <select id="groupQueryApprovingNumber" resultType="com.hxb.loans.loan.dto.ApprovingNumberDTO">
+        SELECT approver_id as approverId, count(1) as number
+        from loan_apply where `status` =220 and del = 0 GROUP BY approver_id
+    </select>
+
+    <select id="getApproveAssignmentList" resultMap="LoanApplyMap">
+        SELECT <include refid="All_Column" />
+        from `loan_apply`
+        where `status` =220 and `approver_id` ='system' and del = 0
+        ORDER BY `loan_succ_count` desc,`apply_time` asc LIMIT #{pageNum}
+    </select>
+
+    <update id="approveAssignment">
+        UPDATE loan_apply
+        SET approver_id = #{approverId}  , approver_name = #{approverName} ,  update_by = #{updateBy}, update_time = NOW()
+        WHERE id in
+        <foreach collection="ids" index="index" item="id" open="(" separator="," close=")">#{id} </foreach>
+        and del = 0
+    </update>
+
+    <select id="getApplyByStatus" parameterType="int" resultMap="LoanApplyMap">
+      SELECT 
+             id, cont_no, apply_time, user_id, user_name, id_no, mobile,
+		     apply_amt, approve_amt, apply_term, approve_term, serv_fee,
+		     stage, status, apply_status, approve_result, approve_time, channel, source
+        FROM loan_apply
+       WHERE status = #{status}
+         AND del = 0
+    </select>
+    
+    <select id="getRepaySuccUnOverApply" resultMap="RepayMap">
+		SELECT la.`id`, lrl.`user_id`, lrl.`user_name`, lrl.`id_no`, lrl.`succ_amt`, lrl.`tx_time`, lrl.`chl_order_no`, lrl.`bind_id`, lrl.`apply_id`
+		  FROM `loan_repay_log` lrl 
+		  JOIN `loan_apply` la 
+		    ON la.`id` = lrl.`apply_id` 
+		 WHERE la.`del` = 0
+		   AND lrl.`del` = 0
+		   AND lrl.`pay_status`= 'SUCCESS'
+		   AND la.`apply_status` = 0
+		ORDER BY lrl.`tx_time` DESC
+    </select>
+    
+</mapper>

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns="http://www.springframework.org/schema/beans"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<bean class="com.hxb.core.context.SpringContextHolder"/>
+
+	<bean id="propertyConfigurer" class="com.hxb.core.context.HxbPreferencesPlaceholderConfigurer">
+		<property name="locations" >
+			<list>
+				<value>classpath*:log4j.properties</value>
+				<value>classpath*:datasource.properties</value>
+				<value>classpath*:dubbo.properties</value>
+				<value>classpath*:config.properties</value>
+
+			</list>
+		</property>
+	</bean>
+	<import resource="/spring/spring-infrastructure.xml"/>
+	<import resource="/spring/spring-services.xml"/>
+	<import resource="/dubbo/dubbo-consumer.xml"/>
+	<import resource="/dubbo/dubbo-provider.xml"/>
+
+</beans>
